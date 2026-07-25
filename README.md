@@ -2,9 +2,9 @@
 
 # 🛡️ ThreatSense AI
 
-### Enterprise Threat Intelligence & Behavioral Analytics
+### Your AI-Powered Security Analyst
 
-*Detects insider threats, credential attacks, and account hijacking in real time — powered by Isolation Forest ML and SHAP explainability.*
+*Catching insider threats, credential thieves, and account hijackers as they happen — using machine learning to understand human behavior, not just rigid security rules.*
 
 ---
 
@@ -18,11 +18,13 @@
 
 ---
 
-## The Idea
+## The Story Behind ThreatSense
 
-Modern organizations have hundreds of users logging in from different cities, devices, and time zones. Hidden inside those normal access logs are attackers — using stolen passwords, impossible location jumps, or fake devices. Traditional rule-based systems miss the subtle ones.
+Imagine your company has hundreds of employees logging in every day. They work from different cities, use different laptops, and sometimes log in at weird hours. Trying to spot a hacker hiding in that massive pile of normal daily activity is like finding a needle in a haystack. Traditional security relies on rigid "if-then" rules, which means smart attackers can easily slip past them.
 
-ThreatSense AI trains a machine learning model on your access log patterns and surfaces the **statistical outliers** — the logins that don't fit. Every flagged event comes with a plain-English explanation of *why* the AI thinks it's suspicious, so your security team can act fast without guessing.
+That's where **ThreatSense AI** steps in. Instead of relying on static rules, it learns the unique rhythm of your organization. We use an **Isolation Forest** algorithm to sniff out the statistical weirdness—the logins that just don't feel right. Once it finds an anomaly, a second AI—a **Random Forest Classifier**—steps in to figure out exactly what kind of attack is happening (like Brute Force or Lateral Movement). 
+
+Best of all? It doesn't just spit out a scary red alert. It uses SHAP values to explain its reasoning in plain English, so your security team knows exactly *why* the alarm went off and what to do next.
 
 ---
 
@@ -31,13 +33,12 @@ ThreatSense AI trains a machine learning model on your access log patterns and s
 ```
 ┌──────────────────────────────────────────────────────────────────┐
 │  ML Engine (Python)                                              │
-│  • Generates ~5,000 synthetic access logs with realistic users,  │
-│    devices, and locations                                        │
-│  • Injects 5 attack patterns (Brute Force, Impossible Travel,    │
-│    Device Spoofing, Lateral Movement, Credential Misuse)         │
-│  • Performs advanced feature engineering for behavioral anomalies│
-│  • Trains an Isolation Forest and calculates real F1 metrics     │
-│  • Computes SHAP values so every prediction is explainable       │
+│  • Generates ~5,000 synthetic access logs representing realistic │
+│    daily employee behavior across devices and locations          │
+│  • Sneaks in 5 sneaky attack patterns for the AI to find         │
+│  • Uses an Isolation Forest model to detect unusual behaviors    │
+│  • Uses a Random Forest Classifier to label the exact threat type│
+│  • Computes SHAP values so the AI can explain its reasoning      │
 │  • Outputs → shared/threat_data.json                            │
 └───────────────────────┬──────────────────────────────────────────┘
                         │  JSON file
@@ -264,7 +265,7 @@ ThreatSense AI/
 
 | Layer | Technology |
 |---|---|
-| **ML** | Python 3, scikit-learn (Isolation Forest), SHAP, Faker, pandas, numpy |
+| **ML** | Python 3, scikit-learn (Isolation Forest & Random Forest), SHAP, Faker, pandas, numpy |
 | **Backend** | Java 17, Spring Boot 3.2, Spring Web, Lombok, Jackson |
 | **Frontend** | React 18, Vite 5, Tailwind CSS v3, Recharts, Axios, Lucide icons |
 | **Storage** | Flat JSON file — no database required |
@@ -294,5 +295,5 @@ That's normal — it's running the full ML pipeline (SHAP computation takes ~40s
 ---
 
 <div align="center">
-<sub>Built with Python · Spring Boot · React · Isolation Forest · SHAP</sub>
+<sub>Built with Python · Spring Boot · React · Isolation Forest · Random Forest · SHAP</sub>
 </div>
