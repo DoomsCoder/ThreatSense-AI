@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design Tokens ────────────────────────────────────────────────────────── */
+:root {
+  --bg-base:     #0d1117;
+  --bg-card:     #161b22;
+  --bg-elevated: #1c2128;
+  --border:      rgba(255,255,255,0.08);
+  --border-mid:  rgba(255,255,255,0.12);
+  --text-1:      #e6edf3;
+  --text-2:      #8b949e;
+  --text-3:      #484f58;
+  --accent:      #7c3aed;   /* violet — matches reference Export CSV */
+  --red:    #f85149;
+  --orange: #f0883e;
+  --yellow: #d29922;
+  --green:  #3fb950;
+  --blue:   #58a6ff;
+}
+
+/* ─── Reset ────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  height: 100%;
+  background: var(--bg-base);
+  color: var(--text-1);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Scrollbar ────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 5px; height: 5px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: rgba(255,255,255,0.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+
+/* ─── Card ─────────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+/* ─── Buttons ──────────────────────────────────────────────────────────────── */
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: 6px; cursor: pointer;
+  background: transparent;
+  border: 1px solid var(--border-mid);
+  color: var(--text-2); font-size: 12px; font-weight: 500;
+  font-family: inherit; letter-spacing: 0;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); color: var(--text-1); }
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 14px; border-radius: 6px; cursor: pointer;
+  background: var(--accent);
+  border: 1px solid rgba(124,58,237,0.8);
+  color: #fff; font-size: 12px; font-weight: 600;
+  font-family: inherit;
+  transition: background 0.15s, opacity 0.15s;
+}
+.btn-primary:hover { background: #6d28d9; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ─── Status pills ─────────────────────────────────────────────────────────── */
+.status-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 500;
+  border: 1px solid transparent;
+}
+.status-pill.critical { background: rgba(248,81,73,0.12);  border-color: rgba(248,81,73,0.3);  color: #f85149; }
+.status-pill.high     { background: rgba(240,136,62,0.12); border-color: rgba(240,136,62,0.3); color: #f0883e; }
+.status-pill.elevated { background: rgba(210,153,34,0.12); border-color: rgba(210,153,34,0.3); color: #d29922; }
+.status-pill.normal   { background: rgba(63,185,80,0.12);  border-color: rgba(63,185,80,0.3);  color: #3fb950; }
+
+/* ─── Threat type pills ─────────────────────────────────────────────────────── */
+.threat-pill {
+  display: inline-flex; align-items: center;
+  padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.threat-pill.brute-force       { background: rgba(248,81,73,0.15);  color: #f85149; border: 1px solid rgba(248,81,73,0.3); }
+.threat-pill.impossible-travel { background: rgba(240,136,62,0.15); color: #f0883e; border: 1px solid rgba(240,136,62,0.3); }
+.threat-pill.device-spoofing   { background: rgba(124,58,237,0.15); color: #a78bfa; border: 1px solid rgba(124,58,237,0.3); }
+.threat-pill.lateral-movement  { background: rgba(234,179,8,0.15);  color: #eab308; border: 1px solid rgba(234,179,8,0.3); }
+.threat-pill.credential-misuse   { background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); }
+
+/* ─── Country badge ─────────────────────────────────────────────────────────── */
+.country-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 1px 5px; border-radius: 3px; margin-left: 6px;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.04em;
+  background: rgba(255,255,255,0.08); color: var(--text-2);
+  font-family: 'JetBrains Mono', monospace;
+  vertical-align: middle;
+}
+
+/* ─── Table ─────────────────────────────────────────────────────────────────── */
+.soc-table { width: 100%; border-collapse: collapse; }
+.soc-table th {
+  padding: 8px 12px; text-align: left;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-3); border-bottom: 1px solid var(--border);
+  white-space: nowrap; user-select: none;
+}
+.soc-table th.sortable { cursor: pointer; }
+.soc-table th.sortable:hover { color: var(--text-2); }
+.soc-table td { padding: 9px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12px; }
+.soc-table tbody tr { cursor: pointer; transition: background 0.1s; }
+.soc-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+.soc-table tbody tr:hover td:first-child { color: #93c5fd; }
+
+.log-id {
+  color: var(--blue); font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 500;
+}
+
+.risk-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px; font-weight: 700;
+}
+.risk-num.critical { color: var(--red); }
+.risk-num.high     { color: var(--orange); }
+.risk-num.medium   { color: var(--yellow); }
+.risk-num.low      { color: var(--green); }
+
+/* ─── Metric card badge ─────────────────────────────────────────────────────── */
+.metric-badge {
+  display: inline-flex; align-items: center;
+  padding: 1px 7px; border-radius: 4px; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.metric-badge.neutral  { background: rgba(255,255,255,0.07); color: var(--text-2); }
+.metric-badge.active   { background: rgba(248,81,73,0.15); color: var(--red); }
+.metric-badge.high-bdg { background: rgba(240,136,62,0.15); color: var(--orange); }
+
+/* ─── Animations ────────────────────────────────────────────────────────────── */
+@keyframes fadeIn  { from { opacity: 0 }                          to { opacity: 1 }  }
+@keyframes slideUp { from { transform: translateY(12px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
+@keyframes blinkDot { 0%, 100% { opacity: 1 } 50% { opacity: 0.3 } }
+@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
+@keyframes toastIn { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: translateY(0) } }
+
+.animate-fade-in  { animation: fadeIn  0.4s ease-out both; }
+.animate-slide-up { animation: slideUp 0.35s ease-out both; }
+.animate-blink    { animation: blinkDot 1.6s ease-in-out infinite; }
+
+/* ─── Modal ─────────────────────────────────────────────────────────────────── */
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(6px);
+  animation: fadeIn 0.18s ease-out;
+}
+
+/* ─── Chart ─────────────────────────────────────────────────────────────────── */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line { stroke: rgba(255,255,255,0.05) !important; }
+
+/* ─── Input / Select ────────────────────────────────────────────────────────── */
+.soc-input {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--text-1); font-size: 12px; font-family: inherit;
+  padding: 5px 10px; outline: none; transition: border-color 0.15s;
+}
+.soc-input:focus { border-color: rgba(255,255,255,0.2); }
+
+/* ─── Segment bar (Threat Distribution) ────────────────────────────────────── */
+.segment-bar { height: 6px; border-radius: 3px; overflow: hidden; display: flex; gap: 2px; }
+.segment-bar > div { border-radius: 2px; transition: flex 0.8s ease; }
