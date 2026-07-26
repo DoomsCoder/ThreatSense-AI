@@ -18,7 +18,8 @@ services:
       - ./shared:/app/shared
       - ./ml-engine:/app/ml-engine # Required so the backend can run the python script on refresh
     depends_on:
-      - ml-engine
+      ml-engine:
+        condition: service_completed_successfully
 
   frontend:
     build:
