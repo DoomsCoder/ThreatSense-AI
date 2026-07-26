@@ -177,6 +177,23 @@ Open your browser at **`http://localhost:5173`** 🎉
 
 ---
 
+## Docker Deployment (Recommended)
+
+You can run the entire stack (Machine Learning Engine, Java Backend, and React Frontend) with a single command using Docker.
+
+Make sure you have Docker and Docker Compose installed.
+
+```bash
+docker-compose up --build
+```
+
+- The React Dashboard will be available at **`http://localhost:5173`**
+- The Spring Boot API will be available at **`http://localhost:8080`**
+
+The `ml-engine` will automatically run once on startup to generate the synthetic threat data, and the backend container is specially configured with Python so the live **Refresh** button on the dashboard continues to work inside the container!
+
+---
+
 ## API Reference
 
 | Method | Endpoint | Description |

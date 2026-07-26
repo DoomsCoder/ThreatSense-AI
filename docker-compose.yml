@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  ml-engine:
+    build:
+      context: ./ml-engine
+    volumes:
+      - ./shared:/app/shared
+    # This runs once on startup to generate the initial data, then exits.
+
+  backend:
+    build:
+      context: . # Changed context to root to access ml-engine requirements
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./shared:/app/shared
+      - ./ml-engine:/app/ml-engine # Required so the backend can run the python script on refresh
+    depends_on:
+      - ml-engine
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8080
+    depends_on:
+      - backend

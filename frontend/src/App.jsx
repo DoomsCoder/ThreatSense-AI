@@ -6,7 +6,7 @@ import ThreatChart from './components/ThreatChart'
 import ThreatTable from './components/ThreatTable'
 import ExplainModal from './components/ExplainModal'
 
-const API_BASE = 'http://localhost:8080/api'
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api'
 
 export default function App() {
   const [stats, setStats]           = useState(null)
