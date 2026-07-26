@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: threatsense-backend
+    env: docker
+    dockerContext: .
+    dockerfilePath: ./backend/Dockerfile
+    plan: free
+    healthCheckPath: /api/stats
+
+  - type: web
+    name: threatsense-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    rootDir: frontend
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: threatsense-backend
+          envVarKey: RENDER_EXTERNAL_URL
+    plan: free

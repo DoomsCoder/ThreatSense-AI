@@ -20,12 +20,17 @@ RUN ln -s /usr/bin/python3 /usr/bin/python || true
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Install python requirements
-COPY ml-engine/requirements.txt /app/ml-engine/requirements.txt
+# Create the shared directory where the JSON file will be generated
+RUN mkdir -p /app/shared
+
+# Copy the ML Engine completely into the backend container so Render can run it
+COPY ml-engine /app/ml-engine
 RUN pip install --no-cache-dir -r /app/ml-engine/requirements.txt
 
 # Copy the built Java jar
 COPY --from=builder /build/target/*.jar app.jar
 
 EXPOSE 8080
-CMD ["java", "-jar", "app.jar"]
+
+# On startup, we first generate the data (if it doesn't exist), then we start the Java Spring Boot server
+CMD ["sh", "-c", "python /app/ml-engine/generate_and_train.py && java -jar app.jar"]
