@@ -22,6 +22,7 @@ function SortIcon({ active, asc }) {
 
 const PAGE_SIZE = 12
 const TYPES = ['All', 'Brute Force', 'Impossible Travel', 'Device Spoofing', 'Lateral Movement', 'Credential Misuse']
+const SCENARIOS = ['All Scenarios', 'Cold Start', 'Concept Drift']
 
 function ThreatRow({ t, onSelect }) {
   const cls   = THREAT_CLS[t.anomaly_type] || ''
@@ -63,6 +64,7 @@ function ThreatRow({ t, onSelect }) {
 export default function ThreatTable({ threats, onSelect }) {
   const [search,    setSearch]  = useState('')
   const [typeFilter, setType]   = useState('All')
+  const [scenarioFilter, setScenarioFilter] = useState('All Scenarios')
   const [sortField, setSort]    = useState('risk_score')
   const [sortAsc,   setSortAsc] = useState(false)
   const [page,      setPage]    = useState(1)
@@ -80,6 +82,8 @@ export default function ThreatTable({ threats, onSelect }) {
       )
     }
     if (typeFilter !== 'All') rows = rows.filter(r => r.anomaly_type === typeFilter)
+    if (scenarioFilter === 'Cold Start') rows = rows.filter(r => r.cold_start)
+    if (scenarioFilter === 'Concept Drift') rows = rows.filter(r => r.concept_drift_flag)
     rows.sort((a, b) => {
       let av = a[sortField], bv = b[sortField]
       if (typeof av === 'string') av = av.toLowerCase()
@@ -87,7 +91,7 @@ export default function ThreatTable({ threats, onSelect }) {
       return sortAsc ? (av > bv ? 1 : -1) : (av < bv ? 1 : -1)
     })
     return rows
-  }, [threats, search, typeFilter, sortField, sortAsc])
+  }, [threats, search, typeFilter, scenarioFilter, sortField, sortAsc])
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
   const paginated  = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
@@ -138,6 +142,16 @@ export default function ThreatTable({ threats, onSelect }) {
             style={{ paddingRight: 8 }}
           >
             {TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+          </select>
+
+          {/* Scenario filter */}
+          <select
+            value={scenarioFilter}
+            onChange={e => { setScenarioFilter(e.target.value); setPage(1) }}
+            className="soc-input"
+            style={{ paddingRight: 8 }}
+          >
+            {SCENARIOS.map(s => <option key={s} value={s}>{s}</option>)}
           </select>
 
           {/* Live feed badge */}
