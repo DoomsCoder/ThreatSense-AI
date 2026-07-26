@@ -5,20 +5,26 @@ import {
 } from 'recharts'
 
 const ANOMALY_COLORS = {
-  'Brute Force':       '#f85149',
+  'Brute Force': '#f85149',
   'Impossible Travel': '#f0883e',
-  'Device Spoofing':   '#a78bfa',
-  'Lateral Movement':  '#eab308',
+  'Device Spoofing': '#a78bfa',
+  'Lateral Movement': '#eab308',
   'Credential Misuse': '#38bdf8',
-  'None':              '#3fb950',
+  'Credential Stuffing': '#fb7185',
+  'Low-and-Slow Exfiltration': '#2dd4bf',
+  'Insider Drift': '#c084fc',
+  'None': '#3fb950',
 }
 
 const ANOMALY_CLS = {
-  'Brute Force':       'brute-force',
+  'Brute Force': 'brute-force',
   'Impossible Travel': 'impossible-travel',
-  'Device Spoofing':   'device-spoofing',
-  'Lateral Movement':  'lateral-movement',
+  'Device Spoofing': 'device-spoofing',
+  'Lateral Movement': 'lateral-movement',
   'Credential Misuse': 'credential-misuse',
+  'Credential Stuffing': 'credential-stuffing',
+  'Low-and-Slow Exfiltration': 'exfiltration',
+  'Insider Drift': 'insider-drift',
 }
 
 function CustomTooltip({ active, payload, label }) {

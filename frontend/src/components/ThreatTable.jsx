@@ -6,6 +6,9 @@ const THREAT_CLS = {
   'Device Spoofing':   'device-spoofing',
   'Lateral Movement':  'lateral-movement',
   'Credential Misuse': 'credential-misuse',
+  'Credential Stuffing': 'credential-stuffing',
+  'Low-and-Slow Exfiltration': 'exfiltration',
+  'Insider Drift': 'insider-drift',
 }
 
 function riskClass(s) {
@@ -21,7 +24,7 @@ function SortIcon({ active, asc }) {
 }
 
 const PAGE_SIZE = 12
-const TYPES = ['All', 'Brute Force', 'Impossible Travel', 'Device Spoofing', 'Lateral Movement', 'Credential Misuse']
+const TYPES = ['All', 'Brute Force', 'Impossible Travel', 'Device Spoofing', 'Lateral Movement', 'Credential Misuse', 'Credential Stuffing', 'Low-and-Slow Exfiltration', 'Insider Drift']
 const SCENARIOS = ['All Scenarios', 'Cold Start', 'Concept Drift']
 
 function ThreatRow({ t, onSelect }) {

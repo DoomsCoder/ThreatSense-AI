@@ -74,15 +74,24 @@ def make_normal_log(log_id: int, timestamp: datetime) -> dict:
     return {
         "id": log_id,
         "timestamp": timestamp.isoformat(),
-        "user_id": user,
-        "ip_address": fake.ipv4_public(),
+        "entity_id": user,
+        "user_id": user, # Keep for UI compatibility
+        "entity_type": "service_account" if user in ADMIN_USERS else "user",
+        "source_ip": fake.ipv4_public(),
+        "ip_address": fake.ipv4_public(), # Overwritten to match source_ip later
         "location_city": loc[0],
         "location_country": loc[1],
-        "device_id": USER_KNOWN_DEVICE[user],
+        "geo_location": f"{loc[0]}, {loc[1]}",
+        "device_fingerprint": USER_KNOWN_DEVICE[user],
+        "device_id": USER_KNOWN_DEVICE[user], # Keep for UI compatibility
+        "resource_accessed": random.choice(["dashboard", "database", "api_gateway", "fileshare", "admin_console"]),
+        "auth_method": random.choice(["password", "token", "biometric", "MFA"]),
+        "command_sequence": "GET /api/v1/status",
         "failed_attempts": failed,
         "session_duration_sec": random.randint(60, 9000),
         "privilege_level": "admin" if user in ADMIN_USERS else "standard",
         "anomaly_type": "None",
+        "label": "normal",
         "_injected": False,
     }
 
@@ -92,7 +101,9 @@ avg_step_sec = (24 * 3600) // TOTAL_LOGS
 
 for i in range(1, TOTAL_LOGS + 1):
     current_time += timedelta(seconds=random.randint(max(1, avg_step_sec // 2), int(avg_step_sec * 1.5)))
-    logs.append(make_normal_log(i, current_time))
+    log = make_normal_log(i, current_time)
+    log["ip_address"] = log["source_ip"]
+    logs.append(log)
 
 # ---------------------------------------------------------------------------
 # 3. Inject Anomalies
@@ -101,7 +112,8 @@ anomaly_indices = random.sample(range(len(logs)), ANOMALY_COUNT)
 
 THREAT_TYPES = [
     "Brute Force", "Impossible Travel", "Device Spoofing", 
-    "Lateral Movement", "Credential Misuse"
+    "Lateral Movement", "Credential Misuse",
+    "Credential Stuffing", "Low-and-Slow Exfiltration", "Insider Drift"
 ]
 
 # Give them random weights so the distribution changes every run
@@ -165,8 +177,28 @@ for threat, indices in buckets.items():
             logs[i]["session_duration_sec"] = random.randint(5, 30)
             # ADD: Slightly elevated but not extreme failures
             logs[i]["failed_attempts"] = random.randint(1, 2)
+        elif threat == "Credential Stuffing":
+            user = random.choice(ALL_USERS)
+            logs[i]["entity_id"] = user
+            logs[i]["user_id"] = user
+            logs[i]["failed_attempts"] = random.randint(1, 3)
+            ip_addr = fake.ipv4_public()
+            logs[i]["source_ip"] = ip_addr
+            logs[i]["ip_address"] = ip_addr
+            logs[i]["auth_method"] = "password"
+        elif threat == "Low-and-Slow Exfiltration":
+            logs[i]["resource_accessed"] = "fileshare"
+            logs[i]["session_duration_sec"] = random.randint(3600, 14400) # Long session
+            logs[i]["command_sequence"] = "SELECT * FROM db LIMIT 10; DOWNLOAD"
+            new_ts = datetime.fromisoformat(logs[i]["timestamp"]).replace(hour=random.randint(1, 4))
+            logs[i]["timestamp"] = new_ts.isoformat()
+        elif threat == "Insider Drift":
+            logs[i]["privilege_level"] = "admin"
+            logs[i]["resource_accessed"] = "database"
+            logs[i]["command_sequence"] = "GRANT ALL PRIVILEGES"
             
         logs[i]["anomaly_type"] = threat
+        logs[i]["label"] = threat
         logs[i]["_injected"] = True
 
 # Cold Start Flagging
@@ -203,6 +235,8 @@ df["hour_of_day"] = pd.to_datetime(df["timestamp"]).dt.hour
 df["is_new_location"] = (df["location_country"] != df["user_id"].map(lambda u: USER_HOME_LOCATION[u][1])).astype(int)
 df["is_new_device"]   = (df["device_id"] != df["user_id"].map(USER_KNOWN_DEVICE)).astype(int)
 df["is_admin"]        = (df["privilege_level"] == "admin").astype(int)
+df["is_unusual_resource"] = (df["resource_accessed"].isin(["fileshare", "database", "admin_console"])).astype(int)
+df["is_suspicious_cmd"] = (df["command_sequence"].str.contains("DOWNLOAD|GRANT", case=False)).astype(int)
 
 FEATURES = [
     "failed_attempts",
@@ -211,6 +245,8 @@ FEATURES = [
     "is_new_location",
     "is_new_device",
     "is_admin",
+    "is_unusual_resource",
+    "is_suspicious_cmd",
 ]
 
 X = df[FEATURES].values

@@ -10,6 +10,9 @@ const ANOMALY_META = {
   'Device Spoofing':   { cls: 'device-spoofing',    color: '#a78bfa' },
   'Lateral Movement':  { cls: 'lateral-movement',   color: '#eab308' },
   'Credential Misuse': { cls: 'credential-misuse',  color: '#38bdf8' },
+  'Credential Stuffing': { cls: 'credential-stuffing', color: '#fb7185' },
+  'Low-and-Slow Exfiltration': { cls: 'exfiltration', color: '#2dd4bf' },
+  'Insider Drift': { cls: 'insider-drift', color: '#c084fc' },
   'None':              { cls: '',                   color: '#3fb950' },
 }
 
@@ -147,16 +150,14 @@ export default function ExplainModal({ threat, onClose }) {
   const tsStr  = `${ts.toISOString().slice(0,10)} ${ts.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`
 
   const details = [
-    { label: 'Log ID',          value: `LOG-${threat.id}`,  mono: true  },
-    { label: 'Date / Time',     value: tsStr,                mono: true  },
-    { label: 'User',            value: threat.user_id,       mono: false },
-    { label: 'IP Address',      value: threat.ip_address,    mono: true  },
-    { label: 'Location',        value: `${threat.location_city}, ${threat.location_country}`, mono: false },
-    { label: 'Device',          value: threat.device_id,     mono: true  },
-    { label: 'Privilege Level', value: threat.privilege_level, mono: false },
-    { label: 'Failed Attempts', value: threat.failed_attempts, mono: true },
-    { label: 'Session Duration', value: `${threat.session_duration_sec}s`, mono: true },
-    { label: 'Hour of Day',     value: `${String(threat.hour_of_day).padStart(2,'0')}:00`, mono: true },
+    { label: 'Entity ID', value: threat.entity_id || threat.user_id },
+    { label: 'Source IP', value: threat.source_ip || threat.ip_address, mono: true },
+    { label: 'Location', value: `${threat.location_city}, ${threat.location_country}` },
+    { label: 'Device', value: threat.device_fingerprint || threat.device_id, mono: true },
+    { label: 'Privilege', value: (threat.privilege_level || '').toUpperCase() },
+    { label: 'Resource', value: threat.resource_accessed || 'N/A' },
+    { label: 'Auth Method', value: threat.auth_method || 'N/A' },
+    { label: 'Command Sequence', value: threat.command_sequence || 'N/A', full: true },
   ]
 
   return (
