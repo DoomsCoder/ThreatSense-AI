@@ -135,19 +135,19 @@ export default function MetricCards({ stats }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 12 }}>
       <MetricCard
-        label="Total Events"
+        label="Logs Analyzed"
         value={stats?.totalLogs ?? 0}
         badge="24h"
         badgeCls="neutral"
-        subtext={<><span style={{color: '#10b981'}}>+12.4%</span> from yesterday</>}
+        subtext={`Anomaly Rate: ${stats?.totalLogs ? ((stats.anomalyCount / stats.totalLogs) * 100).toFixed(1) : 0}%`}
         delay={0}
       />
       <MetricCard
-        label="Critical Anomalies"
-        value={stats?.anomalyCount ?? 0}
-        badge="ACTIVE"
+        label="Critical Alerts"
+        value={highRisk}
+        badge="HIGH RISK"
         badgeCls="active"
-        subtext={`${highRisk} new high-risk events`}
+        subtext={`${stats?.anomalyCount ?? 0} total anomalies detected`}
         delay={80}
       />
       <MetricCard

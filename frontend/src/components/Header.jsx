@@ -62,6 +62,12 @@ export default function Header({ stats, lastRefresh, onRefresh, onExport }) {
         {/* Right — controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
 
+          {/* Scenarios tracker */}
+          <div style={{ display: 'flex', gap: 6, paddingRight: 10, borderRight: '1px solid var(--border-mid)' }}>
+            <span className="scenario-pill cold-start" title="Tracking Users < 15 logs">❄️ Cold Start Tracker</span>
+            <span className="scenario-pill concept-drift" title="Tracking Behavior Shifts">⚠️ Concept Drift Tracker</span>
+          </div>
+
           {/* Status pill */}
           <div className={`status-pill ${status.cls}`}>
             <span className="animate-blink" style={{
