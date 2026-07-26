@@ -322,6 +322,8 @@ FEATURE_LABELS = {
     "is_new_location":      "Unusual Location",
     "is_new_device":        "Unknown Device",
     "is_admin":             "Admin Privilege",
+    "is_unusual_resource":  "Unusual Resource Accessed",
+    "is_suspicious_cmd":    "Suspicious Command Sequence",
 }
 
 def build_explanation(shap_row: np.ndarray) -> dict:
