@@ -68,6 +68,7 @@ export default function ThreatTable({ threats, onSelect }) {
   const [page,      setPage]    = useState(1)
 
   const filtered = useMemo(() => {
+    if (!Array.isArray(threats)) return []
     let rows = [...threats]
     if (search.trim()) {
       const q = search.toLowerCase()

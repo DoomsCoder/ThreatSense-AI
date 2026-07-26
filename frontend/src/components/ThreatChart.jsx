@@ -104,7 +104,7 @@ export default function ThreatChart({ logs }) {
 
   return (
     <div className="card animate-fade-in" style={{ padding: '18px 20px' }}>
-      {/* Header */}
+
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 16 }}>
         <div>
           <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', color: 'var(--text-3)', textTransform: 'uppercase' }}>
@@ -133,7 +133,7 @@ export default function ThreatChart({ logs }) {
         </div>
       </div>
 
-      {/* Legend */}
+
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 16 }}>
         {Object.entries(ANOMALY_COLORS).map(([k, c]) => (
           <span key={k} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: 'var(--text-3)' }}>
@@ -151,7 +151,7 @@ export default function ThreatChart({ logs }) {
         </span>
       </div>
 
-      {/* Chart */}
+
       <div style={{ height: 320 }}>
         {view === 'timeline' ? (
           <ResponsiveContainer width="100%" height="100%">

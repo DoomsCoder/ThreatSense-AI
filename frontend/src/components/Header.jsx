@@ -37,7 +37,6 @@ export default function Header({ stats, lastRefresh, onRefresh, onExport }) {
 
   return (
     <header style={{ position: 'relative' }}>
-      {/* ── Top bar ── */}
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 24px', height: 48,
@@ -45,7 +44,6 @@ export default function Header({ stats, lastRefresh, onRefresh, onExport }) {
         borderBottom: '1px solid var(--border)',
       }}>
 
-        {/* Left — brand */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           {/* Shield icon */}
           <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#7c3aed" strokeWidth={1.8}>
@@ -59,7 +57,6 @@ export default function Header({ stats, lastRefresh, onRefresh, onExport }) {
           </span>
         </div>
 
-        {/* Right — controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
 
           {/* Scenarios tracker */}
@@ -68,7 +65,6 @@ export default function Header({ stats, lastRefresh, onRefresh, onExport }) {
             <span className="scenario-pill concept-drift" title="Tracking Behavior Shifts">⚠️ Concept Drift Tracker</span>
           </div>
 
-          {/* Status pill */}
           <div className={`status-pill ${status.cls}`}>
             <span className="animate-blink" style={{
               width: 7, height: 7, borderRadius: '50%',
@@ -77,7 +73,6 @@ export default function Header({ stats, lastRefresh, onRefresh, onExport }) {
             System: {status.label}
           </div>
 
-          {/* Refresh — ghost */}
           <button className="btn-ghost" onClick={handleRefresh} disabled={spinning}>
             <svg
               width="13" height="13" fill="none" viewBox="0 0 24 24"
@@ -90,7 +85,6 @@ export default function Header({ stats, lastRefresh, onRefresh, onExport }) {
             {spinning ? 'Regenerating…' : 'Refresh'}
           </button>
 
-          {/* Export CSV — primary (violet) */}
           <button className="btn-primary" onClick={handleExport}>
             <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -100,7 +94,7 @@ export default function Header({ stats, lastRefresh, onRefresh, onExport }) {
         </div>
       </div>
 
-      {/* ── Toast ── */}
+
       {toast && (
         <div style={{
           position: 'absolute', top: 56, right: 24, zIndex: 50,

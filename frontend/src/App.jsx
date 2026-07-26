@@ -7,6 +7,7 @@ import ThreatTable from './components/ThreatTable'
 import ExplainModal from './components/ExplainModal'
 
 let API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api'
+API_BASE = API_BASE.replace(/\/+$/, '')
 if (!API_BASE.endsWith('/api')) API_BASE += '/api'
 
 export default function App() {
@@ -37,7 +38,7 @@ export default function App() {
       setAllLogs(allRes.data)
       setLastRefresh(new Date())
     } catch (err) {
-      setError('Cannot connect to backend. Make sure Spring Boot is running on port 8080.')
+      setError('Cannot connect to backend or received invalid data. Make sure the backend is running properly.')
     } finally {
       setLoading(false)
     }

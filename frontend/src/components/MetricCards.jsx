@@ -16,7 +16,7 @@ function useCountUp(target, duration = 900) {
   return value
 }
 
-// ── Metric Card ──────────────────────────────────────────────────────────────
+
 function MetricCard({ label, value, unit = '', subtext, badge, badgeCls = 'neutral', delay = 0 }) {
   const displayed = useCountUp(typeof value === 'number' ? value : 0)
 
@@ -61,7 +61,7 @@ function MetricCard({ label, value, unit = '', subtext, badge, badgeCls = 'neutr
   )
 }
 
-// ── Threat Distribution Card ─────────────────────────────────────────────────
+
 function ThreatDistCard({ stats }) {
   const anomalyCounts = stats?.anomalyCounts || {}
   
@@ -125,7 +125,7 @@ function ThreatDistCard({ stats }) {
   )
 }
 
-// ── Export ───────────────────────────────────────────────────────────────────
+
 export default function MetricCards({ stats }) {
   const highRisk   = stats?.highRiskCount ?? 0
   const avgScore   = stats?.avgRiskScore  ?? 0
