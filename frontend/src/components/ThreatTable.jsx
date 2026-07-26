@@ -53,8 +53,8 @@ function ThreatRow({ t, onSelect }) {
       </td>
       <td style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <span className={`risk-num ${riskClass(score)}`}>{score.toFixed(0)}</span>
-        {t.cold_start && <span title="Cold Start: User has < 15 logs" style={{ fontSize: 14 }}>❄️</span>}
-        {t.concept_drift_flag && <span title="Concept Drift: Behavior shift detected" style={{ fontSize: 14 }}>⚠️</span>}
+        {t.cold_start && <span className="scenario-pill cold-start" title="Cold Start: User has < 15 logs">❄️ Cold Start</span>}
+        {t.concept_drift_flag && <span className="scenario-pill concept-drift" title="Concept Drift: Behavior shift detected">⚠️ Drift</span>}
       </td>
     </tr>
   )

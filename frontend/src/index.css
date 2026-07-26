@@ -96,6 +96,16 @@ html, body, #root {
 .threat-pill.lateral-movement  { background: rgba(234,179,8,0.15);  color: #eab308; border: 1px solid rgba(234,179,8,0.3); }
 .threat-pill.credential-misuse   { background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); }
 
+/* ─── Scenario pills ───────────────────────────────────────────────────────── */
+.scenario-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 6px; border-radius: 4px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.scenario-pill.concept-drift { background: rgba(210,153,34,0.15); color: #d29922; border: 1px solid rgba(210,153,34,0.3); }
+.scenario-pill.cold-start    { background: rgba(88,166,255,0.15); color: #58a6ff; border: 1px solid rgba(88,166,255,0.3); }
+
 /* ─── Country badge ─────────────────────────────────────────────────────────── */
 .country-badge {
   display: inline-flex; align-items: center; justify-content: center;

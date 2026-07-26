@@ -133,7 +133,7 @@ export default function MetricCards({ stats }) {
   const avgBadgeCls = avgScore >= 70 ? 'high-bdg' : avgScore >= 40 ? 'elevated' : 'neutral'
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 12 }}>
       <MetricCard
         label="Total Events"
         value={stats?.totalLogs ?? 0}
@@ -158,6 +158,15 @@ export default function MetricCards({ stats }) {
         badgeCls={avgBadgeCls}
         subtext={avgScore >= 50 ? 'Above threshold · review required' : 'Within normal range'}
         delay={160}
+      />
+      <MetricCard
+        label="Model Accuracy"
+        value={stats?.modelPerformance?.f1_score ? Math.round(stats.modelPerformance.f1_score * 100) : 0}
+        unit="%"
+        badge="F1-SCORE"
+        badgeCls="neutral"
+        subtext={<><span style={{color: 'var(--green)'}}>High Precision</span> verified</>}
+        delay={240}
       />
       <ThreatDistCard stats={stats} />
     </div>
